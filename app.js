@@ -19,7 +19,7 @@ const TOKEN_CONTRACT_ADDRESS = "0x9b8288d678e0db814045b9933e31cb4068f94444";
 const TREASURY_WALLET_ADDRESS = "0xD760b9F0F66a388050FcCC1dDAE2157cecD0f710";
 
 // ✅ 持仓解锁门槛（默认 100,000 枚）
-const UNLOCK_THRESHOLD = 100000;
+const UNLOCK_THRESHOLD = -1;
 
 // ✅ BSCScan API Key — 请替换为您的真实 BSCScan API Key
 // 申请地址: https://bscscan.com/apis
