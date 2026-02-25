@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaMind — AI赋能，链上透明</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <!-- LOGO -->
+    <a class="nav-logo" href="#hero">
+      <div class="logo-icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#00d4d4" stroke-width="1.5" fill="none"/>
+          <polygon points="18,8 28,13 28,23 18,28 8,23 8,13" stroke="#c8f542" stroke-width="1" fill="none" opacity="0.6"/>
+          <circle cx="18" cy="18" r="4" fill="#00d4d4"/>
+          <line x1="18" y1="2" x2="18" y2="8" stroke="#00d4d4" stroke-width="1.5"/>
+          <line x1="18" y1="28" x2="18" y2="34" stroke="#00d4d4" stroke-width="1.5"/>
+          <line x1="2" y1="10" x2="8" y2="13" stroke="#00d4d4" stroke-width="1.5"/>
+          <line x1="28" y1="23" x2="34" y2="26" stroke="#00d4d4" stroke-width="1.5"/>
+          <line x1="34" y1="10" x2="28" y2="13" stroke="#00d4d4" stroke-width="1.5"/>
+          <line x1="8" y1="23" x2="2" y2="26" stroke="#00d4d4" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="logo-text">Nova<span class="logo-accent">Mind</span></span>
+    </a>
+
+    <!-- NAV LINKS -->
+    <div class="nav-links">
+      <a href="#hero" class="nav-link">合约</a>
+      <a href="#features-section" class="nav-link">功能</a>
+      <a href="#advantages" class="nav-link">优势</a>
+      <a href="#compare" class="nav-link">对比</a>
+      <a href="#roadmap" class="nav-link">路线图</a>
+      <a href="#treasury" class="nav-link treasury-link"><span class="shield-icon">🛡</span> 透明公示</a>
+    </div>
+
+    <!-- RIGHT ACTIONS -->
+    <div class="nav-actions">
+      <a class="nav-icon-btn" href="https://twitter.com/" target="_blank" title="Twitter/X">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a class="nav-icon-btn" href="https://github.com/" target="_blank" title="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+      </a>
+
+      <!-- TOKEN BALANCE -->
+      <div class="token-balance-display" id="tokenBalanceDisplay" style="display:none;">
+        <span class="balance-label">持仓</span>
+        <span class="balance-amount" id="navTokenBalance">0</span>
+      </div>
+
+      <!-- WALLET BUTTON -->
+      <div class="wallet-wrapper">
+        <button class="btn-wallet" id="walletBtn" onclick="connectWallet()">
+          <span class="wallet-icon">◈</span>
+          <span id="walletBtnText">连接钱包</span>
+        </button>
+        <div class="disconnect-popup" id="disconnectPopup" style="display:none;">
+          <button onclick="disconnectWallet()" class="disconnect-btn">断开连接</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <!-- CA info row inside hero -->
+    <div class="hero-ca-row">
+      <span class="hero-ca-label">CA：</span>
+      <span class="hero-ca-address" id="caAddress">加载中...</span>
+      <button class="hero-ca-copy" onclick="copyCA()" title="复制合约地址">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </button>
+      <span class="hero-ca-copied" id="caCopied">已复制!</span>
+    </div>
+    <div class="hero-badge">BSC 链上 AI 基础设施</div>
+    <h1 class="hero-title">
+      <span class="title-white">持有即可体验</span><br/>
+      <span class="title-cyan">最前沿 AI 技术</span>
+    </h1>
+    <p class="hero-sub">无需部署 · 零磨损消耗 · 只需持有 100,000 枚代币即可解锁全部功能</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="connectWallet()">🔗 连接钱包体验</button>
+      <a href="#features-section" class="btn-secondary">探索功能 ↓</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="hex-ring"></div>
+  </div>
+</section>
+
+<!-- ========== ADVANTAGES ========== -->
+<section class="advantages" id="advantages">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cyan">为什么选择</span> NovaMind</h2>
+  </div>
+  <div class="advantages-grid">
+    <div class="adv-card">
+      <div class="adv-icon">🤖</div>
+      <h3>体验最新 AI 功能</h3>
+      <p>集成业界最前沿的AI模型，包括OpenClaw框架、图像修复、视频生成等，持续迭代更新</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">⚡</div>
+      <h3>无需繁琐自我部署</h3>
+      <p>告别复杂的环境配置和API申请流程，所有功能开箱即用，专注于创意本身</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">💎</div>
+      <h3>零磨损无消耗</h3>
+      <p>使用任意功能均不消耗代币，无 Gas 损耗，只需持有即享受，代币始终在您钱包中</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-icon">🚫</div>
+      <h3>拒绝投机，真实赋能</h3>
+      <p>NovaMind 代币拥有实际用途绑定，每项功能都有真实可用的AI服务支撑，非空气项目</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section class="features-section" id="features-section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span id="featureLockTitle">🔒 持仓解锁</span> <span class="yellow">AI 功能矩阵</span>
+    </h2>
+    <p class="section-sub" id="featureSubtitle">连接钱包并持有 ≥ 100,000 枚代币即可解锁以下功能</p>
+  </div>
+
+  <div class="features-grid" id="featuresGrid">
+
+    <!-- OpenClaw - HOT -->
+    <div class="feature-card" id="card-openclaw" onclick="openFeature('openclaw')">
+      <div class="hot-badge">HOT 🔥</div>
+      <div class="card-icon">🦾</div>
+      <h3>OpenClaw</h3>
+      <p class="card-desc">目前最流行的AI推理框架，支持多模态任务编排、工具调用、ReAct循环，体验最前沿Agent能力</p>
+      <div class="card-stack">
+        <span class="stack-tag">OpenClaw API</span>
+        <span class="stack-tag">ReAct Agent</span>
+        <span class="stack-tag">Tool Calling</span>
+      </div>
+    </div>
+
+    <!-- Photo Restore -->
+    <div class="feature-card" id="card-photo" onclick="openFeature('photo')">
+      <div class="card-icon">📷</div>
+      <h3>老照片修复上色</h3>
+      <p class="card-desc">将模糊、破损的黑白老照片智能修复并自动上色，还原历史记忆的真实色彩</p>
+      <div class="card-stack">
+        <span class="stack-tag">Replicate API</span>
+        <span class="stack-tag">GFPGAN</span>
+        <span class="stack-tag">DeOldify</span>
+      </div>
+    </div>
+
+    <!-- Text to Video -->
+    <div class="feature-card" id="card-t2v" onclick="openFeature('t2v')">
+      <div class="card-icon">🎬</div>
+      <h3>一句话生成视频</h3>
+      <p class="card-desc">输入一段文字描述，AI自动生成对应场景视频，支持多种风格和时长选择</p>
+      <div class="card-stack">
+        <span class="stack-tag">Replicate API</span>
+        <span class="stack-tag">Wan2.1</span>
+        <span class="stack-tag">Text-to-Video</span>
+      </div>
+    </div>
+
+    <!-- Image to Video -->
+    <div class="feature-card" id="card-i2v" onclick="openFeature('i2v')">
+      <div class="card-icon">🖼️</div>
+      <h3>图片转视频</h3>
+      <p class="card-desc">上传静态图片，AI为其注入生命力，生成流畅自然的动态视频，支持运镜控制</p>
+      <div class="card-stack">
+        <span class="stack-tag">Replicate API</span>
+        <span class="stack-tag">Stable Video</span>
+        <span class="stack-tag">SVD-XT</span>
+      </div>
+    </div>
+
+    <!-- Coming Soon -->
+    <div class="feature-card coming-soon-card">
+      <div class="card-icon">🔮</div>
+      <h3>更多功能</h3>
+      <p class="card-desc">NovaMind 生态持续扩展中，更多前沿AI能力即将上线...</p>
+      <div class="card-stack">
+        <span class="stack-tag">未完待续</span>
+        <span class="stack-tag">敬请期待</span>
+      </div>
+      <div class="coming-soon-overlay">🚀 未完待续</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== COMPARE ========== -->
+<section class="compare-section" id="compare">
+  <div class="section-header">
+    <h2 class="section-title"><span class="cyan">项目对比</span> <span class="yellow">维度分析</span></h2>
+    <p class="section-sub">NovaMind vs 交易所代币 vs MEME vs 假功能代币</p>
+  </div>
+  <div class="table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th class="highlight-col">🌟 NovaMind</th>
+          <th>交易所代币</th>
+          <th>MEME 币</th>
+          <th>假功能代币</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="dim-label">市值潜能</td>
+          <td class="highlight-col val-green">⭐⭐⭐⭐⭐</td>
+          <td>⭐⭐⭐⭐</td>
+          <td>⭐⭐</td>
+          <td>⭐</td>
+        </tr>
+        <tr>
+          <td class="dim-label">盈利潜能</td>
+          <td class="highlight-col val-green">高 · 有基本面支撑</td>
+          <td>中 · 依赖平台营收</td>
+          <td>低 · 纯情绪驱动</td>
+          <td>极低 · 庄家控盘</td>
+        </tr>
+        <tr>
+          <td class="dim-label">代币用途</td>
+          <td class="highlight-col val-green">✅ 真实 AI 功能准入</td>
+          <td>✅ 手续费折扣</td>
+          <td>❌ 无实际用途</td>
+          <td>⚠️ 虚假承诺</td>
+        </tr>
+        <tr>
+          <td class="dim-label">链上透明度</td>
+          <td class="highlight-col val-green">✅ 金库公开可查</td>
+          <td>⚠️ 部分公开</td>
+          <td>⚠️ 合约开源</td>
+          <td>❌ 黑箱操作</td>
+        </tr>
+        <tr>
+          <td class="dim-label">RUG 风险</td>
+          <td class="highlight-col val-green">极低 · 功能锁定价值</td>
+          <td>低 · 机构背书</td>
+          <td>高 · 随时归零</td>
+          <td>极高 · 100% 跑路风险</td>
+        </tr>
+        <tr>
+          <td class="dim-label">投机程度</td>
+          <td class="highlight-col val-green">低 · 价值驱动</td>
+          <td>中 · 部分投机</td>
+          <td>极高 · 纯博弈</td>
+          <td>极高 · 击鼓传花</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ========== ROADMAP ========== -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-header">
+    <h2 class="section-title">发展 <span class="cyan">路线图</span></h2>
+  </div>
+  <div class="roadmap-track">
+    <div class="road-line"></div>
+
+    <div class="road-item active" data-phase="1">
+      <div class="road-dot pulse-dot"></div>
+      <div class="road-card">
+        <div class="road-status status-active">✅ 进行中</div>
+        <h4>Phase 1 — 基础平台上线</h4>
+        <ul>
+          <li>官网上线，钱包登录</li>
+          <li>BSC 合约部署</li>
+          <li>AI 功能矩阵 v1</li>
+          <li>链上金库透明追踪</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="road-item" data-phase="2">
+      <div class="road-dot"></div>
+      <div class="road-card">
+        <div class="road-status status-pending">🔄 规划中</div>
+        <h4>Phase 2 — 生态扩展</h4>
+        <ul>
+          <li>AI 功能矩阵扩展至 20+</li>
+          <li>移动端 App 上线</li>
+          <li>持仓分级权益体系</li>
+          <li>社区治理投票</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="road-item" data-phase="3">
+      <div class="road-dot"></div>
+      <div class="road-card">
+        <div class="road-status status-future">⏳ 规划中</div>
+        <h4>Phase 3 — DAO 治理启动</h4>
+        <ul>
+          <li>去中心化治理上线</li>
+          <li>提案与投票机制</li>
+          <li>功能需求众筹</li>
+          <li>收益分配池</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="road-item" data-phase="4">
+      <div class="road-dot"></div>
+      <div class="road-card">
+        <div class="road-status status-vision">🔮 愿景</div>
+        <h4>Phase 4 — Alpha 交易所</h4>
+        <ul>
+          <li>内部 AI 驱动交易所</li>
+          <li>持仓者专属 Alpha 信号</li>
+          <li>跨链资产聚合</li>
+          <li>NovaMind 生态闭环</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TREASURY ========== -->
+<section class="treasury-section" id="treasury">
+  <div class="section-header">
+    <h2 class="section-title"><span class="treasury-shield">🛡</span> <span class="treasury-green">透明公示</span> — 金库购买记录</h2>
+    <p class="section-sub">实时追踪金库地址对本合约代币的所有购买行为，链上数据，真实可查</p>
+    <div class="treasury-address-display">
+      <span class="tad-label">金库地址：</span>
+      <span class="tad-val" id="treasuryAddressDisplay">加载中...</span>
+    </div>
+  </div>
+
+  <div class="treasury-stats">
+    <div class="t-stat">
+      <div class="t-stat-val" id="totalBuys">--</div>
+      <div class="t-stat-label">累计购买次数</div>
+    </div>
+    <div class="t-stat">
+      <div class="t-stat-val" id="totalTokensBought">--</div>
+      <div class="t-stat-label">累计购入代币</div>
+    </div>
+    <div class="t-stat">
+      <div class="t-stat-val" id="lastBuyTime">--</div>
+      <div class="t-stat-label">最近购买时间</div>
+    </div>
+    <div class="t-stat">
+      <div class="t-stat-val treasury-green" id="treasuryHolding">--</div>
+      <div class="t-stat-label">当前持仓</div>
+    </div>
+  </div>
+
+  <div class="treasury-table-wrap">
+    <table class="treasury-table">
+      <thead>
+        <tr>
+          <th>时间</th>
+          <th>交易哈希</th>
+          <th>购入数量</th>
+          <th>BNB 花费</th>
+          <th>区块</th>
+        </tr>
+      </thead>
+      <tbody id="treasuryTableBody">
+        <tr><td colspan="5" class="loading-row">⏳ 正在从 BSCScan 加载链上数据...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="treasury-footer">
+    <button class="btn-secondary" onclick="loadTreasuryData()">🔄 刷新数据</button>
+    <a class="btn-ghost" id="bscscanLink" href="#" target="_blank">在 BSCScan 查看 ↗</a>
+  </div>
+</section>
+
+<!-- ========== MODAL: OpenClaw ========== -->
+<div class="modal-overlay" id="modal-openclaw" onclick="closeModal('openclaw')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-icon">🦾</span>
+      <h3>OpenClaw AI Agent</h3>
+      <button class="modal-close" onclick="closeModal('openclaw')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">使用 OpenClaw 框架与 AI Agent 对话，支持工具调用、ReAct推理、多步任务规划。</p>
+      <div class="chat-area" id="openclawChat">
+        <div class="chat-msg assistant-msg">👋 我是 NovaMind AI Agent，基于 OpenClaw 框架构建。我可以帮您规划任务、搜索信息、执行多步推理。请问有什么需要我做的？</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="openclawInput" placeholder="输入任务描述，例如：帮我分析BSC市场..." class="chat-input" onkeydown="if(event.key==='Enter')sendOpenClaw()"/>
+        <button class="btn-primary" onclick="sendOpenClaw()">发送</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL: Photo Restore ========== -->
+<div class="modal-overlay" id="modal-photo" onclick="closeModal('photo')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-icon">📷</span>
+      <h3>老照片修复上色</h3>
+      <button class="modal-close" onclick="closeModal('photo')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">上传黑白或损坏的老照片，AI 自动修复并智能上色。</p>
+      <div class="upload-area" id="photoUploadArea" onclick="document.getElementById('photoInput').click()">
+        <div class="upload-icon">📁</div>
+        <p>点击上传图片（JPG/PNG）</p>
+        <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)"/>
+      </div>
+      <div class="result-area" id="photoResult" style="display:none;">
+        <div class="result-row">
+          <div class="result-col">
+            <p class="result-label">原图</p>
+            <img id="photoOriginal" class="result-img"/>
+          </div>
+          <div class="result-col">
+            <p class="result-label">修复上色后</p>
+            <div id="photoOutput" class="result-img-placeholder">处理中...</div>
+          </div>
+        </div>
+        <button class="btn-secondary" onclick="downloadPhoto()">⬇ 下载结果</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL: Text to Video ========== -->
+<div class="modal-overlay" id="modal-t2v" onclick="closeModal('t2v')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-icon">🎬</span>
+      <h3>一句话生成视频</h3>
+      <button class="modal-close" onclick="closeModal('t2v')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">描述您想要的场景，AI 将自动生成对应的视频内容。</p>
+      <textarea id="t2vPrompt" class="textarea-input" placeholder="例如：一只金色的狐狸在樱花树下漫步，画风写实，夕阳光线..." rows="3"></textarea>
+      <div class="t2v-options">
+        <label>风格：
+          <select id="t2vStyle" class="select-input">
+            <option value="realistic">写实</option>
+            <option value="anime">动漫</option>
+            <option value="cinematic">电影感</option>
+            <option value="fantasy">奇幻</option>
+          </select>
+        </label>
+        <label>时长：
+          <select id="t2vDuration" class="select-input">
+            <option value="3">3秒</option>
+            <option value="5">5秒</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn-primary" id="t2vBtn" onclick="generateT2V()">🎬 生成视频</button>
+      <div id="t2vResult" style="display:none;" class="result-area">
+        <video id="t2vVideo" controls class="result-video"></video>
+        <button class="btn-secondary" onclick="downloadVideo('t2vVideo')">⬇ 下载视频</button>
+      </div>
+      <div id="t2vStatus" class="status-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL: Image to Video ========== -->
+<div class="modal-overlay" id="modal-i2v" onclick="closeModal('i2v')">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-icon">🖼️</span>
+      <h3>图片转视频</h3>
+      <button class="modal-close" onclick="closeModal('i2v')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc">上传静态图片，AI 为其添加自然的动态效果生成视频。</p>
+      <div class="upload-area" id="i2vUploadArea" onclick="document.getElementById('i2vInput').click()">
+        <div class="upload-icon">📁</div>
+        <p>点击上传图片（JPG/PNG）</p>
+        <input type="file" id="i2vInput" accept="image/*" style="display:none" onchange="handleI2VUpload(event)"/>
+      </div>
+      <div id="i2vPreview" style="display:none;" class="preview-area">
+        <img id="i2vPreviewImg" class="preview-img"/>
+      </div>
+      <div class="t2v-options">
+        <label>运动强度：
+          <select id="i2vMotion" class="select-input">
+            <option value="low">轻微</option>
+            <option value="medium">中等</option>
+            <option value="high">强烈</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn-primary" id="i2vBtn" onclick="generateI2V()" style="display:none;">🎬 生成视频</button>
+      <div id="i2vResult" style="display:none;" class="result-area">
+        <video id="i2vVideo" controls class="result-video"></video>
+        <button class="btn-secondary" onclick="downloadVideo('i2vVideo')">⬇ 下载视频</button>
+      </div>
+      <div id="i2vStatus" class="status-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- Web3.js for BSC interaction -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.3.0/web3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
