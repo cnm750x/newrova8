@@ -45,7 +45,7 @@ const BSC_CHAIN_CONFIG = {
   chainId: BSC_CHAIN_ID,
   chainName: "BNB Smart Chain",
   nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
-  rpcUrls: ["https://bsc.publicnode.com"],
+  rpcUrls: ["https://bsc-dataseed.binance.org/"],
   blockExplorerUrls: ["https://bscscan.com/"],
 };
 
