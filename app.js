@@ -13,25 +13,25 @@
  */
 
 // ✅ 【重要】代币合约地址 — 请在此处修改为您的实际合约地址
-const TOKEN_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000";
+const TOKEN_CONTRACT_ADDRESS = "0x9b8288d678e0db814045b9933e31cb4068f94444";
 
 // ✅ 【重要】🛡 透明公示金库地址 — 请在此处修改为您的金库钱包地址
-const TREASURY_WALLET_ADDRESS = "0x0000000000000000000000000000000000000001";
+const TREASURY_WALLET_ADDRESS = "0xD760b9F0F66a388050FcCC1dDAE2157cecD0f710";
 
 // ✅ 持仓解锁门槛（默认 100,000 枚）
 const UNLOCK_THRESHOLD = 100000;
 
 // ✅ BSCScan API Key — 请替换为您的真实 BSCScan API Key
 // 申请地址: https://bscscan.com/apis
-const BSCSCAN_API_KEY = "YourBSCScanAPIKeyHere";
+const BSCSCAN_API_KEY = "XGYUT7EWTW93TRSM9MES5QCX4RXXYUVEE8";
 
 // ✅ OpenClaw / Claude AI API Key — 请替换为真实 Anthropic API Key
 // 申请地址: https://console.anthropic.com/
-const CLAUDE_API_KEY = "YourAnthropicAPIKeyHere";
+const CLAUDE_API_KEY = "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";
 
 // ✅ Replicate API Token — 用于图像修复/视频生成
 // 申请地址: https://replicate.com/account/api-tokens
-const REPLICATE_API_TOKEN = "YourReplicateAPITokenHere";
+const REPLICATE_API_TOKEN = "r8_57VIUi5sXYShNY0IsqVwOkfzawy4TWz2Q8XMA";
 
 /**
  * ============================================================
@@ -45,7 +45,7 @@ const BSC_CHAIN_CONFIG = {
   chainId: BSC_CHAIN_ID,
   chainName: "BNB Smart Chain",
   nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
-  rpcUrls: ["https://bsc-dataseed.binance.org/"],
+  rpcUrls: ["https://bsc.publicnode.com"],
   blockExplorerUrls: ["https://bscscan.com/"],
 };
 
